@@ -1,0 +1,1 @@
+const taxesFilePath = 'data/taxes.json';
