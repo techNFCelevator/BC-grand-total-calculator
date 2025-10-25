@@ -13,5 +13,12 @@ fetch(taxesFilePath)
   )
   .then(data => {
     taxes = data;
+    for (let key = 0; key < taxes.length;) {
+        if (Object.hasOwn(taxes[key], "tax") && typeof taxes[key].tax === "string" && Object.hasOwn(taxes[key], "rate") && typeof taxes[key].rate === "number") {
+            ++key;
+        } else {
+            taxes.splice(key, 1);
+        }
+    }
   })
   .catch(error => console.error('Error loading taxes:', error));
