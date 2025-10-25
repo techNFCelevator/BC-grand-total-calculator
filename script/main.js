@@ -3,11 +3,11 @@ const taxesFilePath = 'data/taxes.json';
 let taxes=[];
 fetch(taxesFilePath)
   .then(
-    function(response) {
+    response => {
         if (response.ok) {
             return response.json();
         } else {
-            throw new Error('Unable to obtain ${taxesFilePath} because the response is ${response.ok}');
+            throw new Error('Network response was not ok');
         }
     }
   )
