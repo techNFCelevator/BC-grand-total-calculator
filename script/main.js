@@ -22,3 +22,4 @@ fetch(taxesFilePath)
     }
   })
   .catch(error => console.error('Error loading taxes:', error));
+  if (taxes.length > 0) {}
