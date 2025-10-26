@@ -1,6 +1,7 @@
 const price = document.getElementById('priceInput');
 const taxesFilePath = 'data/taxes.json';
-let taxes=[];
+let taxes = [];
+let errorMsg = "";
 fetch(taxesFilePath)
   .then(
     response => {
