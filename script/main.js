@@ -7,7 +7,7 @@ fetch(taxesFilePath)
         if (response.ok) {
             return response.json();
         } else {
-            throw new Error('Network response was not ok');
+            throw new Error("Response is ${response.ok} as it cannot find ${taxesFilePath}");
         }
     }
   )
