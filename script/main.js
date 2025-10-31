@@ -39,14 +39,14 @@ function calculate(initial) {
 }
 function process(input) {
   const final = calculate(input);
-  display(input, final);
+  result(input, final);
 }
-function display(initial, final) {
+function result(initial, final) {
   popup.innerHTML = `<h2>Price Calculation</h2><p>Initial: $${initial}</p>`;
   taxes.forEach(tax => {
     popup.innerHTML += `<p>${tax.tax} (${tax.rate}%): $${(initial * (tax.rate / 100)).toFixed(2)}</p>`;
   });
-  popup.innerHTML += `<hr><p>Final: $${final}</p><button`;
+  popup.innerHTML += `<hr><p>Final: $${final}</p><button>Close</button>`;
 }
 document.addEventListener("keydown", event => {
   if (event.key === "Enter") {
