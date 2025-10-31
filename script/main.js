@@ -9,10 +9,9 @@ display.prepend(popup);
 fetch(taxesFile)
     .then(response => {
       if (!response.ok) {
-        throw new Error(`${response.status} HTTP status error received when fetching ${taxesFile}`);
-      } else {
-        return response.json();
+        throw new Error(`${response.statusText} ${response.status} received when fetching ${taxesFile}`);
       }
+      return response.json();
     })
     .then(data => {
       taxes = data;
@@ -29,4 +28,4 @@ fetch(taxesFile)
         throw new Error("No valid taxes loaded successfully.");
       }
     })
-    .catch(error => $(`popup`).html(`<h2>Error Loading Taxes</h2><p>${error}</p>`));
+    .catch(error => $(`.popup`).html(`<h2>Error Loading Taxes</h2><p>${error.message}</p>`));
