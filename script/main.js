@@ -1,28 +1,32 @@
 const display = document.querySelector("main");
-const popup = document.createElement("popup");
+const popup = document.createElement("section");
 const price = document.getElementById('priceInput');
-const taxesFilePath = 'data/taxes.json';
+const taxesFile = 'data/taxes.json';
 let taxes = [];
 let errorMsg = "";
 popup.className = "popup";
 display.prepend(popup);
-fetch(taxesFilePath)
-  .then(
-    response => {
-        if (response.ok) {
-            return response.json();
+fetch(taxesFile)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`${response.status} HTTP status error received when fetching ${taxesFile}`);
+      } else {
+        return response.json();
+      }
+    })
+    .then(data => {
+      taxes = data;
+      for (let key=0; key < taxes.length;) {
+        if (Object.hasOwn(taxes[key], "tax") && typeof taxes[key].tax === "string" && Object.hasOwn(taxes[key], "rate") && typeof taxes[key].rate === "number") {
+          key++;
         } else {
-            throw new Error("Response is ${response.ok} as it cannot find ${taxesFilePath}");
+          taxes.splice(key, 1);
         }
-    }
-  )
-  .then(function(data) {
-    taxes = data;
-  })
-  .catch(error => errorMsg += error.message);
-  if (taxes.length > 0) {
-    price.removeAttribute("disabled");
-  } else {
-    errorMsg += "No tax loaded successfully.";
-    $(`.popup`).html(`<h2>ERROR</h2><p>${errorMsg}</p>`);
-  }
+      }
+      if (taxes.length > 0) {
+        price.removeAttribute("disabled");
+      } else {
+        throw new Error("No valid taxes loaded successfully.");
+      }
+    })
+    .catch(error => $(`popup`).html(`<h2>Error Loading Taxes</h2><p>${error}</p>`));
