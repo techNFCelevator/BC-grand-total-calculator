@@ -41,7 +41,11 @@ function process(input) {
   const final = calculate(input);
 }
 function display(initial, final) {
-  popup.innerHTML = `<h2>Price Calculation</h2>`;
+  popup.innerHTML = `<h2>Price Calculation</h2><p>Initial: $${initial}</p>`;
+  taxes.forEach(tax => {
+    popup.innerHTML += `<p>${tax.tax} (${tax.rate}%): $${(initial * (tax.rate / 100)).toFixed(2)}</p>`;
+  });
+  popup.innerHTML += `<p>Final: $${final.toFixed(2)}</p>`;
 }
 document.addEventListener("keydown", event => {
   if (event.key === "Enter") {
