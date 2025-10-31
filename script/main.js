@@ -1,4 +1,5 @@
 const display = document.querySelector("main");
+const invalidKeys = ["e", "E", "+", "-"];
 const popup = document.createElement("section");
 const price = document.getElementById('priceInput');
 const taxesFile = 'data/taxes.json';
@@ -36,3 +37,19 @@ function calculate(initial) {
   });
   return total;
 }
+function process(input) {
+  const final = calculate(input);
+}
+function display(initial, final) {
+  popup.innerHTML = `<h2>Price Calculation</h2>`;
+}
+document.addEventListener("keydown", event => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    if (price.value !== "" && price.value !== null) {
+      process(parseFloat(price.value));
+    }
+  } else if (invalidKeys.includes(event.key)) {
+    event.preventDefault();
+  }
+});
