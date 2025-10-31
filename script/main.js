@@ -29,10 +29,10 @@ fetch(taxesFile)
       }
     })
     .catch(error => $(`.popup`).html(`<h2>Error Loading Taxes</h2><p>${error.message}</p>`));
-    function calculate(subtotal) {
-      let total = subtotal;
+    function calculate(initial) {
+      let total = initial;
       taxes.forEach(tax => {
-        total += subtotal * (tax.rate / 100);
+        total += initial * (tax.rate / 100);
       });
       return total;
     }
