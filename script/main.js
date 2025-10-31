@@ -29,7 +29,7 @@ fetch(taxesFile)
         throw new Error("No valid taxes loaded successfully.");
       }
     })
-    .catch(error => $(`.popup`).html(`<h2>Error Loading Taxes</h2><p>${error.message}</p>`));
+    .catch(error => popup.innerHTML = `<h2>Error Loading Taxes</h2><p>${error.message}</p>`);
 function calculate(initial) {
   let total = initial;
   taxes.forEach(tax => {
@@ -46,7 +46,7 @@ function display(initial, final) {
   taxes.forEach(tax => {
     popup.innerHTML += `<p>${tax.tax} (${tax.rate}%): $${(initial * (tax.rate / 100)).toFixed(2)}</p>`;
   });
-  popup.innerHTML += `<p>Final: $${final}</p>`;
+  popup.innerHTML += `<hr><p>Final: $${final}</p><button`;
 }
 document.addEventListener("keydown", event => {
   if (event.key === "Enter") {
