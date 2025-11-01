@@ -1,13 +1,16 @@
+const decimals = 2;
 const display = document.querySelector("main");
 const popup = document.createElement("dialog");
-const price = document.getElementById('priceInput');
-const inputPattern = new RegExp(/^\d*\.?\d{0,2}$/);
+const price = document.getElementById("priceInput");
+const validator = new RegExp(`^\\d*\\.?\\d{0,${decimals}}$`);
 const taxesFile = 'data/taxes.json';
-const validatorPattern = new RegExp(/^\d+(\.\d{0,2})?$/);
+const title = document.querySelector("header h1");
+document.title = "Price tax calculator";
 let lastValidInput = "";
 let taxes = [];
 let errorMsg = "";
 popup.className = "popup";
+title.textContent = document.title;
 display.prepend(popup);
 fetch(taxesFile)
     .then(response => {
@@ -49,20 +52,20 @@ fetch(taxesFile)
 function calculate(initial) {
   let total = initial;
   taxes.forEach(tax => {
-    total += parseFloat((initial * (tax.rate / 100)).toFixed(2));
+    total += parseFloat((initial * (tax.rate / 100)).toFixed(decimals));
   });
-  return parseFloat(total.toFixed(2));
+  return total;
 }
 function process(input) {
   const final = calculate(input);
   showMath(input, final);
 }
 function showMath(initial, final) {
-  popup.innerHTML = `<h2>Price Calculation</h2><p>Initial: $${initial}</p>`;
+  popup.innerHTML = `<h2>Price Calculation</h2><p>Initial: $${initial.toFixed(decimals)}</p>`;
   taxes.forEach(tax => {
-    popup.innerHTML += `<p>+ ${tax.tax} (${tax.rate}%): $${(initial * (tax.rate / 100)).toFixed(2)}</p>`;
+    popup.innerHTML += `<p>+ ${tax.tax} (${tax.rate}%): $${(initial * (tax.rate / 100)).toFixed(decimals)}</p>`;
   });
-  popup.innerHTML += `<hr><p>Final: $${final}</p><button>Close</button>`;
+  popup.innerHTML += `<hr><p>Final: $${final.toFixed(decimals)}</p><button>Close</button>`;
   const closeButton = popup.querySelector("button");
   closeButton.addEventListener("click", () => {
     popup.close();
@@ -71,7 +74,7 @@ function showMath(initial, final) {
 }
 price.addEventListener("input", event => {
   const newInput = event.target.value;
-  if (inputPattern.test(newInput)) {
+  if (validator.test(newInput)) {
     lastValidInput = newInput;
   } else {
     event.target.value = lastValidInput;
